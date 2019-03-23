@@ -12,7 +12,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                hello world
+                <h4>Movie Search</h4>
 
                 <Movie />
             </div>
@@ -20,4 +20,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default App
