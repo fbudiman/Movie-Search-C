@@ -7,14 +7,46 @@ import { search } from './services/search'
 // Components
 import Movie from './components/Movie/Movie'
 
+const initialState = {
+    text: '',
+    movies: []
+}
+
 class App extends Component {
 
+    state = {...initialState}
+
+    handleSearch = text => !!text ?
+        search(text)
+            .then(res => {
+                this.setState(() => ({
+                    movies: res.results
+                }))
+            }) :
+        this.setState(() => initialState)
+
+    handleTextChange = ({ target }) => this.setState(() => ({ 
+        text: target.value
+    }), () => this.handleSearch(target.value))
+
     render() {
+        const { text, movies } = this.state
+
         return (
             <div className="App">
-                <h4>Movie Search</h4>
+                <h2>Movie Search</h2>
 
-                <Movie />
+                <input
+                    className="__search-input"
+                    type="text"
+                    value={text}
+                    onChange={this.handleTextChange}
+                />
+
+                {movies.map(movie => <Movie
+                    key={movie.id}
+                    movie={movie}
+                />)}
             </div>
         )
     }
