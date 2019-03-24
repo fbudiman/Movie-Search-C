@@ -28,7 +28,7 @@
 .App > .__pagination > li {
     flex-basis: 50px;
     border-bottom: 2px solid #DBDBDB;
-    transition: border 350ms ease-out;
+    transition: border 250ms ease-out;
 }
 
 .App > .__pagination > li > a {
@@ -40,7 +40,7 @@
     border-color: #7F7F7F;
 }
 
-.App > .__pagination > li.active {
+.App > .__pagination > li.--active {
     border-color: #000;
 }
 

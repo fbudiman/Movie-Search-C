@@ -14,7 +14,8 @@ const initialState = {
     text: '',
     movies: [],
     resultsMsg: null,
-    pages: 0
+    pages: 0,
+    currentPage: 0
 }
 
 class App extends Component {
@@ -24,9 +25,9 @@ class App extends Component {
     fetchMovies = (text, page=1) => {
         search(text, page)
             .then(res => {
-                console.log(res)
                 this.setState(() => ({
                     movies: res.results,
+                    currentPage: res.page - 1,
                     pages: res.total_pages,
                     resultsMsg: !res.results.length ?
                         'Your search did not match any movie titles.' : null
@@ -46,7 +47,6 @@ class App extends Component {
         text: target.value
     }), () => this.handleSearch(target.value))
 
-    // when keyword changes, the page does not
     handlePageChange = ({ selected }) => {
         this.fetchMovies(this.state.text, selected + 1)
     }
@@ -56,6 +56,7 @@ class App extends Component {
             text, 
             movies,
             pages,
+            currentPage,
             resultsMsg
         } = this.state
 
@@ -76,14 +77,13 @@ class App extends Component {
                         previousLabel={'Prev'}
                         nextLabel={'Next'}
                         breakLabel={'...'}
-                        breakClassName={'break-me'}
                         pageCount={pages}
+                        forcePage={currentPage}
                         marginPagesDisplayed={1}
                         pageRangeDisplayed={8}
                         onPageChange={this.handlePageChange}
                         containerClassName={'__pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
+                        activeClassName={'--active'}
                     />
                 }
 
