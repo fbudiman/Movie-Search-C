@@ -41,6 +41,7 @@ class App extends Component {
                 <input
                     className="__search-input"
                     type="text"
+                    placeholder="Movie Titles..."
                     value={text}
                     onChange={this.handleTextChange}
                 />

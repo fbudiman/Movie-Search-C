@@ -1,3 +1,11 @@
 .App {
-  text-align: center;
+    text-align: center;
+}
+
+.App > .__search-input {
+    width: 50%;
+    height: 1.25rem;
+    padding: 0.25rem;
+    font-size: 0.925rem;
+    margin-bottom: 1rem;
 }

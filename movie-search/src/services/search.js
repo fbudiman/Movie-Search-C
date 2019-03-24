@@ -1,4 +1,4 @@
-// dependencies
+// Dependencies
 import axios from 'axios'
 
 const key = '403ffcb3b4481da342203f94fb6e937e'
