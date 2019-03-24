@@ -6,32 +6,44 @@ import './App.css'
 import { search } from './services/search'
 // Components
 import Movie from './components/Movie/Movie'
+// Dependencies
+import _debounce from 'lodash/debounce'
 
 const initialState = {
     text: '',
-    movies: []
+    movies: [],
+    resultsMsg: null
 }
 
 class App extends Component {
 
     state = {...initialState}
 
-    handleSearch = text => !text ?
-        this.setState(() => initialState) :
-        search(text)
-            .then(res => {
-                this.setState(() => ({
-                    movies: res.results
-                }))
-            })
+    handleSearch = _debounce(text => {
+        if (!text) {
+            this.setState(() => initialState)
+        } else {
+            search(text)
+                .then(res => {
+                    this.setState(() => ({
+                        movies: res.results,
+                        resultsMsg: !res.results.length ?
+                            'Your search did not match any movie titles.' : null
+                    }))
+                })
+        }
+    }, 200) // more? less?
 
     handleTextChange = ({ target }) => this.setState(() => ({ 
         text: target.value
     }), () => this.handleSearch(target.value))
 
     render() {
-        const { text, movies } = this.state
-        const hasNoResults = !!text && !movies.length
+        const { 
+            text, 
+            movies,
+            resultsMsg
+        } = this.state
 
         return (
             <div className="App">
@@ -45,8 +57,8 @@ class App extends Component {
                     onChange={this.handleTextChange}
                 />
 
-                {hasNoResults ?
-                    <div className="__no-results">Your search did not match any movie titles.</div> :
+                {!!resultsMsg ?
+                    <div className="__no-results">{resultsMsg}</div> :
                     movies.map(movie => <Movie
                         key={movie.id}
                         movie={movie}

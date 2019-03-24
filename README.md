@@ -1,3 +1,4 @@
 dependencies
 - axios
 - moment
+- lodash
