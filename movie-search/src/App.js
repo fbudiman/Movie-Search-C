@@ -32,7 +32,7 @@ class App extends Component {
                     }))
                 })
         }
-    }, 200) // more? less?
+    }, 175) // more? less?
 
     handleTextChange = ({ target }) => this.setState(() => ({ 
         text: target.value
