@@ -31,8 +31,7 @@ class App extends Component {
 
     render() {
         const { text, movies } = this.state
-
-        console.log(movies)
+        const hasNoResults = !!text && !movies.length
 
         return (
             <div className="App">
@@ -46,10 +45,13 @@ class App extends Component {
                     onChange={this.handleTextChange}
                 />
 
-                {movies.map(movie => <Movie
-                    key={movie.id}
-                    movie={movie}
-                />)}
+                {hasNoResults ?
+                    <div className="__no-results">Your search did not match any movie titles.</div> :
+                    movies.map(movie => <Movie
+                        key={movie.id}
+                        movie={movie}
+                    />)
+                }
             </div>
         )
     }

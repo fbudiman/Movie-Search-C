@@ -9,3 +9,7 @@
     font-size: 0.925rem;
     margin-bottom: 1rem;
 }
+
+.App > .__no-results {
+    margin-top: 1rem;
+}
