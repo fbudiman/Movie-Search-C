@@ -30,7 +30,13 @@
 	border-bottom: 1px solid #CCCCCC;
 }
 
-.__details > .date {
+.__details > .date,
+.__details > .rating {
 	color: #5B5B5B;
 	font-size: 0.925rem;
+}
+
+.__details > .summary {
+	font-size: 0.825rem;
+	margin-top: 1rem;
 }

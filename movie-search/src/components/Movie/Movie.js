@@ -10,17 +10,36 @@ const base = 'https://image.tmdb.org/t/p/w200'
 
 const Movie = ({ movie }) => {
 
+	const {
+		title,
+		poster_path,
+		release_date,
+		vote_average,
+		vote_count,
+		overview
+	} = movie
+
 	return (
-		<div className="Movie">
+		<div className="Movie" title={title}>
 			<div className="__poster">
-				{!!movie.poster_path ? 
-					<img src={base + movie.poster_path} alt="Movie Poster" /> :
+				{!!poster_path ? 
+					<img src={base + poster_path} alt="Movie Poster" /> :
 					<div className="--unavailable">Poster Unavailable</div>
 				}
 			</div>
 			<div className="__details">
-				<div className="title">{movie.title}</div>
-				<div className="date">Released {moment(movie.release_date).format('MMMM Do, YYYY')}</div>
+				<div className="title">
+					{title}
+				</div>
+				<div className="date">
+					Released {moment(release_date).format('MMMM Do, YYYY')}
+				</div>
+				<div className="rating">
+					Rated {vote_average}/10 of {vote_count} Reviews
+				</div>
+				<div className="summary">
+					{overview}
+				</div>
 			</div>
 		</div>
 	)
