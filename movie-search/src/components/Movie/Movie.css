@@ -1,3 +1,14 @@
 .Movie {
-	
+	display: flex;
+	width: 50%;
+	margin: 1rem auto;
+}
+
+.__poster > img {
+	width: 125px;
+}
+
+.__details {
+	flex: 1;
+	text-align: left;
 }

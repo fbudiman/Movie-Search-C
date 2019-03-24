@@ -16,14 +16,14 @@ class App extends Component {
 
     state = {...initialState}
 
-    handleSearch = text => !!text ?
+    handleSearch = text => !text ?
+        this.setState(() => initialState) :
         search(text)
             .then(res => {
                 this.setState(() => ({
                     movies: res.results
                 }))
-            }) :
-        this.setState(() => initialState)
+            })
 
     handleTextChange = ({ target }) => this.setState(() => ({ 
         text: target.value
@@ -31,6 +31,8 @@ class App extends Component {
 
     render() {
         const { text, movies } = this.state
+
+        console.log(movies)
 
         return (
             <div className="App">
