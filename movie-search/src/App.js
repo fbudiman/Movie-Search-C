@@ -8,29 +8,37 @@ import { search } from './services/search'
 import Movie from './components/Movie/Movie'
 // Dependencies
 import _debounce from 'lodash/debounce'
+import ReactPaginate from 'react-paginate'
 
 const initialState = {
     text: '',
     movies: [],
-    resultsMsg: null
+    resultsMsg: null,
+    pages: 0
 }
 
 class App extends Component {
 
     state = {...initialState}
 
+    fetchMovies = (text, page=1) => {
+        search(text, page)
+            .then(res => {
+                console.log(res)
+                this.setState(() => ({
+                    movies: res.results,
+                    pages: res.total_pages,
+                    resultsMsg: !res.results.length ?
+                        'Your search did not match any movie titles.' : null
+                }))
+            })
+    }
+
     handleSearch = _debounce(text => {
         if (!text) {
             this.setState(() => initialState)
         } else {
-            search(text)
-                .then(res => {
-                    this.setState(() => ({
-                        movies: res.results,
-                        resultsMsg: !res.results.length ?
-                            'Your search did not match any movie titles.' : null
-                    }))
-                })
+            this.fetchMovies(text)
         }
     }, 175) // more? less?
 
@@ -38,10 +46,16 @@ class App extends Component {
         text: target.value
     }), () => this.handleSearch(target.value))
 
+    // when keyword changes, the page does not
+    handlePageChange = ({ selected }) => {
+        this.fetchMovies(this.state.text, selected + 1)
+    }
+
     render() {
         const { 
             text, 
             movies,
+            pages,
             resultsMsg
         } = this.state
 
@@ -56,6 +70,22 @@ class App extends Component {
                     value={text}
                     onChange={this.handleTextChange}
                 />
+
+                {pages > 1 &&
+                    <ReactPaginate
+                        previousLabel={'Prev'}
+                        nextLabel={'Next'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={pages}
+                        marginPagesDisplayed={1}
+                        pageRangeDisplayed={8}
+                        onPageChange={this.handlePageChange}
+                        containerClassName={'__pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                    />
+                }
 
                 {!!resultsMsg ?
                     <div className="__no-results">{resultsMsg}</div> :

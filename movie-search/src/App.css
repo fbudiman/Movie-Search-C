@@ -2,12 +2,46 @@
     text-align: center;
 }
 
+.App *:focus {
+    outline: 0;
+}
+
 .App > .__search-input {
     width: 50%;
     height: 1.25rem;
     padding: 0.25rem;
     font-size: 0.925rem;
     margin-bottom: 1rem;
+}
+
+.App > .__pagination {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    width: 50%;
+    margin: 1rem auto 2rem;
+    cursor: pointer;
+    font-size: 0.925rem;
+}
+
+.App > .__pagination > li {
+    flex-basis: 50px;
+    border-bottom: 2px solid #DBDBDB;
+    transition: border 350ms ease-out;
+}
+
+.App > .__pagination > li > a {
+    display: block;
+    padding-bottom: 0.65rem;
+}
+
+.App > .__pagination > li:hover {
+    border-color: #7F7F7F;
+}
+
+.App > .__pagination > li.active {
+    border-color: #000;
 }
 
 .App > .__no-results {
