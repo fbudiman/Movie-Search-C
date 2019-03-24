@@ -13,23 +13,24 @@ import ReactPaginate from 'react-paginate'
 const initialState = {
     text: '',
     movies: [],
-    resultsMsg: null,
     pages: 0,
-    currentPage: 0
+    currentPage: 0,
+    resultsMsg: null
 }
 
 class App extends Component {
 
     state = {...initialState}
 
-    fetchMovies = (text, page=1) => {
-        search(text, page)
-            .then(res => {
+    fetchMovies = (text, pageNum=1) => {
+        search(text, pageNum)
+            .then(({ results, page, total_pages }) => {
                 this.setState(() => ({
-                    movies: res.results,
-                    currentPage: res.page - 1,
-                    pages: res.total_pages,
-                    resultsMsg: !res.results.length ?
+                    movies: results,
+                    currentPage: page - 1,
+                    pages: total_pages > 1000 ?
+                        1000 : total_pages,
+                    resultsMsg: !results.length ?
                         'Your search did not match any movie titles.' : null
                 }))
             })

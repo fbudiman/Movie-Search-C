@@ -23,6 +23,10 @@ const Movie = ({ movie }) => {
 		'No Ratings.' :
 		`Rated ${vote_average}/10 from ${vote_count.toLocaleString()} ${vote_count === 1 ? 'Review' : 'Reviews'}`
 
+	const releaseDateMsg = !!release_date ?
+		`Released ${moment(release_date).format('MMMM Do, YYYY')}` :
+		'Release date unavailable.'
+
 	return (
 		<div className="Movie" title={title}>
 			<div className="__poster">
@@ -36,7 +40,7 @@ const Movie = ({ movie }) => {
 					{title}
 				</div>
 				<div className="date">
-					Released {moment(release_date).format('MMMM Do, YYYY')}
+					{releaseDateMsg}
 				</div>
 				<div className="rating">
 					{ratingsMsg}
