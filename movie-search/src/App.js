@@ -36,9 +36,11 @@ class App extends Component {
             })
     }
 
+    handleClear = () => this.setState(() => initialState)
+
     handleSearch = _debounce(text => {
         if (!text) {
-            this.setState(() => initialState)
+            this.handleClear()
         } else {
             this.fetchMovies(text)
         }
@@ -52,12 +54,24 @@ class App extends Component {
         this.fetchMovies(this.state.text, selected + 1)
     }
 
+    renderPaginate = () => <ReactPaginate
+        previousLabel={'Prev'}
+        nextLabel={'Next'}
+        breakLabel={'...'}
+        pageCount={this.state.pages}
+        forcePage={this.state.currentPage}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={8}
+        onPageChange={this.handlePageChange}
+        containerClassName={'__pagination'}
+        activeClassName={'--active'}
+    />
+
     render() {
         const { 
             text, 
             movies,
             pages,
-            currentPage,
             resultsMsg
         } = this.state
 
@@ -65,27 +79,20 @@ class App extends Component {
             <div className="App">
                 <h2>Movie Search</h2>
 
-                <input
-                    className="__search-input"
-                    type="text"
-                    placeholder="Movie Titles..."
-                    value={text}
-                    onChange={this.handleTextChange}
-                />
+                <div className="__search-input">
+                    <input
+                        type="text"
+                        placeholder="Movie Titles..."
+                        value={text}
+                        onChange={this.handleTextChange}
+                    />
+                    <span onClick={this.handleClear}>
+                        Clear
+                    </span>
+                </div>
 
                 {pages > 1 &&
-                    <ReactPaginate
-                        previousLabel={'Prev'}
-                        nextLabel={'Next'}
-                        breakLabel={'...'}
-                        pageCount={pages}
-                        forcePage={currentPage}
-                        marginPagesDisplayed={1}
-                        pageRangeDisplayed={8}
-                        onPageChange={this.handlePageChange}
-                        containerClassName={'__pagination'}
-                        activeClassName={'--active'}
-                    />
+                    this.renderPaginate()
                 }
 
                 {!!resultsMsg ?
@@ -94,6 +101,10 @@ class App extends Component {
                         key={movie.id}
                         movie={movie}
                     />)
+                }
+
+                {pages > 1 &&
+                    this.renderPaginate()
                 }
             </div>
         )

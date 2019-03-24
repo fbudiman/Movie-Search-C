@@ -2,6 +2,8 @@
 	display: flex;
 	width: 75%;
 	margin: 1rem auto;
+	padding: 1rem;
+	border: 1px solid #CCCCCC;
 }
 
 .__poster > img {
@@ -25,9 +27,7 @@
 
 .__details > .title {
 	font-size: 1.25rem;
-	padding-bottom: 0.25rem;
 	margin-bottom: 0.25rem;
-	border-bottom: 1px solid #CCCCCC;
 }
 
 .__details > .date,
