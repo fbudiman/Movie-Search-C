@@ -22,6 +22,18 @@ class App extends Component {
 
     state = {...initialState}
 
+    componentDidMount = () => {
+        const { 
+            query,
+            page 
+        } = this.props.match.params
+
+        if (!!query)
+            this.setState(() => ({
+                text: query
+            }), () => this.fetchMovies(query, page))
+    }
+
     fetchMovies = (text, pageNum=1) => {
         search(text, pageNum)
             .then(({ results, page, total_pages }) => {
@@ -32,11 +44,21 @@ class App extends Component {
                         1000 : total_pages,
                     resultsMsg: !results.length ?
                         'Your search did not match any movie titles.' : null
-                }))
+                }), this.setUrl)
             })
     }
 
-    handleClear = () => this.setState(() => initialState)
+    setUrl = (clear=false) => {
+        const {
+            text,
+            currentPage
+        } = this.state
+
+        const url = !!clear ? '/' : `${text}&page=${currentPage + 1}`
+        window.history.pushState({}, '', url)
+    }
+
+    handleClear = () => this.setState(() => initialState, () => this.setUrl(true))
 
     handleSearch = _debounce(text => {
         if (!text) {
